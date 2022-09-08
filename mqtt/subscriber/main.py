@@ -1,6 +1,7 @@
 """
 Micropython MQTT subscriber implementation
-""" 
+"""
+import time 
 from umqtt import MQTTClient
 
 # Topic del que se va a pedir datos
