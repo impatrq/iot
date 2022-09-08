@@ -10,7 +10,7 @@ message_interval = 1
 
 # Funciones
 
-def connect():
+def connect() -> MQTTClient:
     """
     Funcion que se encarga de conectar el cliente
     al broker apropiado.
@@ -31,7 +31,7 @@ def connect():
     # Devuelvo el client
     return client
  
-def restart_and_reconnect():
+def restart_and_reconnect() -> None:
     """
     Funcion que se encarga de resetear el ESP32
     si hubiese algun error al conectarse.

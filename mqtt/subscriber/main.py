@@ -7,10 +7,16 @@ topic_sub = b'apellido/magnitud/sensor'
 
 # Funciones
 
-def sub_callback(topic, msg):
+def sub_callback(topic: bytes, msg: bytes) -> None:
     """
     Funcion de callback llamada cada vez que se
     encuentren mensajes por leer del broker.
+
+    ...
+    Params:
+        - topic (bytes): nombre del topic del que
+        se recibio mensaje.
+        - msg (bytes): mensaje recibido
     """
     # Topic de interes
     global topic_sub
@@ -22,13 +28,14 @@ def sub_callback(topic, msg):
     print((topic, msg))
     print("-" * 60)
  
-def connect_and_subscribe():
+def connect_and_subscribe() -> MQTTClient:
     """
     Funcion que se encarga de conectar el cliente
     al broker apropiado y luego hacer las suscripciones
     a los topics necesarios.
 
-    return: objeto del tipo MQTTClient asociado al
+    ...
+    Return: objeto del tipo MQTTClient asociado al
     id del ESP32 y conectado al broker.
     """
     # Variables globales importadas desde el boot
@@ -48,7 +55,7 @@ def connect_and_subscribe():
     # Devuelvo el client
     return client
  
-def restart_and_reconnect():
+def restart_and_reconnect() -> None:
     """
     Funcion que se encarga de resetear el ESP32
     si hubiese algun error al conectarse.
