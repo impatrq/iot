@@ -2,7 +2,7 @@
 Micropython MQTT publisher implementation
 """ 
 import time
-from umqttsimple import MQTTClient
+from umqtt import MQTTClient
 import ubinascii
 import machine
 import micropython
