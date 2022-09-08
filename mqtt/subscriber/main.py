@@ -1,6 +1,7 @@
 """
 Micropython MQTT subscriber implementation
 """ 
+from umqtt import MQTTClient
 
 # Topic del que se va a pedir datos
 topic_sub = b'apellido/magnitud/sensor'
@@ -18,8 +19,6 @@ def sub_callback(topic: bytes, msg: bytes) -> None:
         se recibio mensaje.
         - msg (bytes): mensaje recibido
     """
-    # Topic de interes
-    global topic_sub
     # Conversoin a string
     topic = topic.decode('utf-8')
     # Obtengo el mensaje del broker
@@ -28,7 +27,7 @@ def sub_callback(topic: bytes, msg: bytes) -> None:
     print((topic, msg))
     print("-" * 60)
  
-def connect_and_subscribe() -> MQTTClient:
+def connect_and_subscribe(client_id: str, mqtt_server: str, topic_sub: bytes) -> MQTTClient:
     """
     Funcion que se encarga de conectar el cliente
     al broker apropiado y luego hacer las suscripciones
@@ -38,8 +37,6 @@ def connect_and_subscribe() -> MQTTClient:
     Return: objeto del tipo MQTTClient asociado al
     id del ESP32 y conectado al broker.
     """
-    # Variables globales importadas desde el boot
-    global client_id, mqtt_server, topic_sub
     # Creo una instancia del MQTT CLient
     client = MQTTClient(client_id, mqtt_server)
     # Configuro el callback para cuando llega un mensaje del broker
@@ -61,14 +58,14 @@ def restart_and_reconnect() -> None:
     si hubiese algun error al conectarse.
     """
     print('Failed to connect to MQTT broker. Reconnecting...')
-    time.sleep(10)
+    time.sleep(2)
     machine.reset()
  
 # Programa principal
 
 try:
     # Intenta conectar el cliente
-    client = connect()
+    client = connect_and_subscribe(client_id, mqtt_server, topic_sub)
 except OSError as e:
     # Reinicia si hay un error
     restart_and_reconnect()
